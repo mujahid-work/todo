@@ -34,7 +34,7 @@ class RegisterController extends Controller
             'password' => Hash::make($request->password)
         ]);
         if ($is_created) {
-            $this->sendVerificationEmail($code);
+            $this->sendVerificationEmail($code,$request->email);
             $response = [
                 'success' => ['Heads Up! Account created successfully.']
             ];
@@ -46,13 +46,13 @@ class RegisterController extends Controller
         }
     }
 
-    public function sendVerificationEmail($code)
+    public function sendVerificationEmail($code,$to)
     {
         $mail_data = [
             'pin_code' => $code,
             'body' => 'This is your account verfication code. Please use this pin code to verify your account.'
         ];
-        Mail::to('mojooroger45@gmail.com')->send(new VerificationEmail($mail_data));
+        Mail::to($to)->send(new VerificationEmail($mail_data));
         return true;
     }
 
