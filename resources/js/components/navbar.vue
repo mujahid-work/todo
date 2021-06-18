@@ -96,7 +96,7 @@ export default {
   },
   methods: {
     logout() {
-      axios.post("/api/logout").then(() => {
+      axios.get("/api/logout").then(() => {
         this.$router.push("/");
       });
     },

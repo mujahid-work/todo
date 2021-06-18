@@ -1852,10 +1852,106 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   components: {
     Navbar: _Navbar__WEBPACK_IMPORTED_MODULE_0__.default
+  },
+  data: function data() {
+    return {
+      form: {
+        title: "",
+        description: ""
+      },
+      errors: []
+    };
+  },
+  methods: {
+    save: function save() {
+      var _this = this;
+
+      axios.post("/api/todo", this.form).then(function (response) {
+        _this.$router.push("/");
+
+        _this.$toaster.success(response.data.success[0]);
+      })["catch"](function (error) {
+        _this.errors = error.response.data.errors;
+
+        if (_this.errors.error) {
+          _this.$toaster.error(_this.errors.error[0]);
+        }
+      });
+    }
   }
 });
 
@@ -2095,7 +2191,7 @@ __webpack_require__.r(__webpack_exports__);
     logout: function logout() {
       var _this = this;
 
-      axios.post("/api/logout").then(function () {
+      axios.get("/api/logout").then(function () {
         _this.$router.push("/");
       });
     }
@@ -2334,6 +2430,32 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   components: {
     Navbar: _Navbar__WEBPACK_IMPORTED_MODULE_0__.default
+  },
+  data: function data() {
+    return {
+      user: false,
+      todo_list: null,
+      url: null
+    };
+  },
+  methods: {
+    fetchTodoList: function fetchTodoList(path) {
+      var _this = this;
+
+      axios.get(path).then(function (response) {
+        _this.todo_list = response.data;
+      });
+    }
+  },
+  mounted: function mounted() {
+    // axios.get("/api/user").then((response) => {
+    //   this.user = response.data;
+    // });
+    // this.user
+    //   ? (this.url = "api/todo/" + this.user.id)
+    //   : (this.url = "api/todo");
+    // fetchTodoList(this.url);
+    this.fetchTodoList('api/todo');
   }
 });
 
@@ -21013,9 +21135,130 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [_c("Navbar"), _vm._v("\n  Create Todo\n")], 1)
+  return _c(
+    "div",
+    [
+      _c("Navbar"),
+      _vm._v(" "),
+      _c(
+        "div",
+        {
+          staticClass: "flex flex-wrap w-full justify-center items-center pt-10"
+        },
+        [
+          _c("div", { staticClass: "flex flex-wrap max-w-xl" }, [
+            _vm._m(0),
+            _vm._v(" "),
+            _c("div", { staticClass: "p-2 w-full" }, [
+              _c("label", { attrs: { for: "title" } }, [_vm._v("Title")]),
+              _vm._v(" "),
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.form.title,
+                    expression: "form.title"
+                  }
+                ],
+                staticClass:
+                  "\n            w-full\n            bg-gray-100\n            rounded\n            border border-gray-400\n            focus:outline-none\n            focus:border-indigo-500\n            text-base\n            px-4\n            py-2\n          ",
+                attrs: {
+                  placeholder: "enter title of your todo",
+                  type: "text"
+                },
+                domProps: { value: _vm.form.title },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.$set(_vm.form, "title", $event.target.value)
+                  }
+                }
+              }),
+              _vm._v(" "),
+              _vm.errors.title
+                ? _c("span", { staticClass: "w-full text-red-500" }, [
+                    _vm._v(_vm._s(_vm.errors.title[0]))
+                  ])
+                : _vm._e()
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "p-2 w-full" }, [
+              _c("label", { attrs: { for: "description" } }, [
+                _vm._v("Description")
+              ]),
+              _vm._v(" "),
+              _c("textarea", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.form.description,
+                    expression: "form.description"
+                  }
+                ],
+                staticClass:
+                  "\n            w-full\n            bg-gray-100\n            rounded\n            border border-gray-400\n            focus:outline-none\n            focus:border-indigo-500\n            text-base\n            px-4\n            py-2\n          ",
+                attrs: {
+                  placeholder: "enter short description",
+                  name: "description"
+                },
+                domProps: { value: _vm.form.description },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.$set(_vm.form, "description", $event.target.value)
+                  }
+                }
+              }),
+              _vm._v(" "),
+              _vm.errors.description
+                ? _c("span", { staticClass: "w-full text-red-500" }, [
+                    _vm._v(_vm._s(_vm.errors.description[0]))
+                  ])
+                : _vm._e()
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "p-2 w-full mt-4" }, [
+              _c(
+                "button",
+                {
+                  staticClass:
+                    "\n            flex\n            text-white\n            bg-indigo-500\n            border-0\n            py-2\n            px-8\n            focus:outline-none\n            hover:bg-indigo-600\n            rounded\n            text-lg\n          ",
+                  attrs: { type: "submit" },
+                  on: {
+                    click: function($event) {
+                      $event.preventDefault()
+                      return _vm.save.apply(null, arguments)
+                    }
+                  }
+                },
+                [_vm._v("\n          Save\n        ")]
+              )
+            ])
+          ])
+        ]
+      )
+    ],
+    1
+  )
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      { staticClass: "p-2 text-2xl text-gray-800 font-semibold" },
+      [_c("h1", [_vm._v("Create a new todo")])]
+    )
+  }
+]
 render._withStripped = true
 
 
