@@ -34,7 +34,7 @@ class RegisterController extends Controller
             'password' => Hash::make($request->password)
         ]);
         if ($is_created) {
-            $this->sendVerificationEmail($code,$request->email);
+            $this->sendVerificationEmail($code, $request->email);
             $response = [
                 'success' => ['Heads Up! Account created successfully.']
             ];
@@ -46,7 +46,7 @@ class RegisterController extends Controller
         }
     }
 
-    public function sendVerificationEmail($code,$to)
+    public function sendVerificationEmail($code, $to)
     {
         $mail_data = [
             'pin_code' => $code,
@@ -60,7 +60,7 @@ class RegisterController extends Controller
     {
         $characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
         $pin = mt_rand(1000000, 9999999)
-            . mt_rand(1000000, 9999999)
+            . Carbon::now()
             . $characters[rand(0, strlen($characters) - 1)];
         return str_shuffle($pin);
     }

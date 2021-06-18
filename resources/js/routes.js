@@ -5,11 +5,12 @@ import CreateTodo from './components/CreateTodo';
 import ViewTodo from './components/ViewTodo';
 import PageNotFound from './components/PageNotFound';
 import VerifyAccount from './components/VerifyAccount';
+import axios from 'axios';
 
-export default{
+export default {
     mode: 'history',
-    linkActiveClass: 'font-semibold',
-    routes:[
+    linkActiveClass: 'font-bold underline',
+    routes: [
         {
             path: '*',
             component: PageNotFound
@@ -32,11 +33,25 @@ export default{
         },
         {
             path: '/create-todo',
-            component: CreateTodo
+            component: CreateTodo,
+            beforeEnter: (to, from, next) => {
+                axios.get('api/authenticated').then(() => {
+                    next();
+                }).catch(() => {
+                    return next('/login')
+                })
+            }
         },
         {
             path: '/view-todo',
-            component: ViewTodo
+            component: ViewTodo,
+            beforeEnter: (to, from, next) => {
+                axios.get('api/authenticated').then(() => {
+                    next();
+                }).catch(() => {
+                    return next('/login')
+                })
+            }
         }
     ]
 }
