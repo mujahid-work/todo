@@ -4,6 +4,7 @@ import Register from './components/Register';
 import CreateTodo from './components/CreateTodo';
 import ViewTodo from './components/ViewTodo';
 import PageNotFound from './components/PageNotFound';
+import VerifyAccount from './components/VerifyAccount';
 
 export default{
     mode: 'history',
@@ -17,10 +18,10 @@ export default{
             path: '/',
             component: TodoList
         },
-        // {
-        //     path: '/my-todo-list',
-        //     path: MyTodoList
-        // },
+        {
+            path: '/verify-account',
+            component: VerifyAccount
+        },
         {
             path: '/login',
             component: Login
