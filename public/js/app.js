@@ -12972,8 +12972,14 @@ __webpack_require__.r(__webpack_exports__);
     component: _components_CreateTodo__WEBPACK_IMPORTED_MODULE_3__.default,
     name: 'create',
     beforeEnter: function beforeEnter(to, from, next) {
-      axios__WEBPACK_IMPORTED_MODULE_7___default().get('api/authenticated').then(function () {
-        next();
+      axios__WEBPACK_IMPORTED_MODULE_7___default().get('api/authenticated').then(function (res) {
+        if (res.data == 1) {
+          next();
+        } else {
+          next({
+            name: "login"
+          });
+        }
       })["catch"](function () {
         return next({
           name: "login"
@@ -12981,12 +12987,18 @@ __webpack_require__.r(__webpack_exports__);
       });
     }
   }, {
-    path: '/view-todo',
+    path: '/view-todo/:id',
     component: _components_ViewTodo__WEBPACK_IMPORTED_MODULE_4__.default,
     name: 'view',
     beforeEnter: function beforeEnter(to, from, next) {
-      axios__WEBPACK_IMPORTED_MODULE_7___default().get('api/authenticated').then(function () {
-        next();
+      axios__WEBPACK_IMPORTED_MODULE_7___default().get('api/authenticated').then(function (res) {
+        if (res.data == 1) {
+          next();
+        } else {
+          next({
+            name: "login"
+          });
+        }
       })["catch"](function () {
         return next({
           name: "login"

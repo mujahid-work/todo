@@ -24,7 +24,7 @@ export default {
         {
             path: '/verify-account',
             component: VerifyAccount,
-            name:'verify'
+            name: 'verify'
         },
         {
             path: '/login',
@@ -41,20 +41,30 @@ export default {
             component: CreateTodo,
             name: 'create',
             beforeEnter: (to, from, next) => {
-                axios.get('api/authenticated').then(() => {
-                    next();
+                axios.get('api/authenticated').then((res) => {
+                    if (res.data == 1) {
+                        next();
+                    }
+                    else {
+                        next({ name: "login" })
+                    }
                 }).catch(() => {
                     return next({ name: "login" })
                 })
             }
         },
         {
-            path: '/view-todo',
+            path: '/view-todo/:id',
             component: ViewTodo,
-            name:'view',
+            name: 'view',
             beforeEnter: (to, from, next) => {
-                axios.get('api/authenticated').then(() => {
-                    next();
+                axios.get('api/authenticated').then((res) => {
+                    if (res.data == 1) {
+                        next();
+                    }
+                    else {
+                        next({ name: "login" })
+                    }
                 }).catch(() => {
                     return next({ name: "login" })
                 })
