@@ -5,12 +5,22 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\ToDo;
 use Illuminate\Validation\ValidationException;
+use Illuminate\Support\Facades\Auth;
 
 class ToDoController extends Controller
 {
     public function index(Request $request)
     {
-        $data = ToDo::where('title', 'LIKE', "%{$request->keywords}%")->paginate(9);
+        $user = Auth::user();
+        if ($user) {
+            $data = ToDo::where('title', 'LIKE', "%{$request->keywords}%")
+                ->where('user_id', '=', $user->id)
+                ->paginate(9);
+        } else {
+            $data = ToDo::where('title', 'LIKE', "%{$request->keywords}%")
+                ->paginate(9);
+        }
+
         return response()->json($data);
     }
 
@@ -20,7 +30,12 @@ class ToDoController extends Controller
             'title' => ['required'],
             'description' => ['required']
         ]);
-        $is_created = ToDo::create($request->all());
+        $user = Auth::user();
+        $is_created = ToDo::create([
+            'title' => $request->title,
+            'description' => $request->description,
+            'user_id' => $user->id
+        ]);
         if ($is_created) {
             $response = [
                 'success' => ['Heads Up! Record added successfully.']

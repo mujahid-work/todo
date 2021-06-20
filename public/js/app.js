@@ -12599,12 +12599,12 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
       var _this = this;
 
       axios["delete"]("/api/todo/".concat(id)).then(function (response) {
-        var i = _this.todo_list.map(function (todo) {
+        var i = _this.todo_list.data.map(function (todo) {
           return todo.id;
         }).indexOf(id); // find index of your object
 
 
-        _this.todo_list.splice(i, 1);
+        _this.todo_list.data.splice(i, 1);
 
         _this.$toaster.success(response.data.success[0]);
       })["catch"](function (error) {
@@ -54197,7 +54197,7 @@ var render = function() {
               : _c("p", [_vm._v("All ToDo:")])
           ]),
           _vm._v(" "),
-          _vm.todo_list.data
+          _vm.todo_list.data.length
             ? _c(
                 "div",
                 { staticClass: "flex flex-wrap -mx-1 lg:-mx-4" },
@@ -54323,7 +54323,7 @@ var render = function() {
               )
             : _vm._e(),
           _vm._v(" "),
-          !_vm.todo_list.data
+          !_vm.todo_list.data.length
             ? _c("div", { staticClass: "text-3xl text-center text-red-600" }, [
                 _vm._v("\n      No Record Found! "),
                 _c("br")

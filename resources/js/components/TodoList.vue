@@ -23,7 +23,7 @@
         <p v-if="user">My ToDo List:</p>
         <p v-else>All ToDo:</p>
       </div>
-      <div class="flex flex-wrap -mx-1 lg:-mx-4" v-if="todo_list.data">
+      <div class="flex flex-wrap -mx-1 lg:-mx-4" v-if="todo_list.data.length">
         <div
           class="my-1 px-1 w-full md:w-1/2 lg:my-4 lg:px-4 lg:w-1/3"
           v-for="todo in todo_list.data"
@@ -80,7 +80,7 @@
           </article>
         </div>
       </div>
-      <div class="text-3xl text-center text-red-600" v-if="!todo_list.data">
+      <div class="text-3xl text-center text-red-600" v-if="!todo_list.data.length">
         No Record Found! <br />
       </div>
       <pagination
@@ -116,8 +116,8 @@ export default {
       axios
         .delete(`/api/todo/${id}`)
         .then((response) => {
-          let i = this.todo_list.map((todo) => todo.id).indexOf(id); // find index of your object
-          this.todo_list.splice(i, 1);
+          let i = this.todo_list.data.map((todo) => todo.id).indexOf(id); // find index of your object
+          this.todo_list.data.splice(i, 1);
           this.$toaster.success(response.data.success[0]);
         })
         .catch((error) => {
