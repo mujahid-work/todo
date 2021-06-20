@@ -10,7 +10,7 @@ class ToDoController extends Controller
 {
     public function index()
     {
-        $data = ToDo::paginate(10);
+        $data = ToDo::paginate(9);
         return response()->json($data);
     }
 

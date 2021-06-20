@@ -12555,6 +12555,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 
 var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
@@ -12592,37 +12593,28 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
         }
       });
     },
-    fetchTodoList: function fetchTodoList(path) {
+    getResults: function getResults() {
       var _this2 = this;
 
-      axios.get(path).then(function (response) {
-        console.log(response.data);
-        _this2.todo_list = response.data.data;
+      var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
+      axios.get("api/todo?page=" + page).then(function (response) {
+        _this2.todo_list = response.data;
       });
-    } // getResults(page) {
-    //   if (typeof page === "undefined") {
-    //     page = 1;
-    //   }
-    //   axios.get("api/todo?page=" + page)
-    //     .then((response) => {
-    //       return response.json();
-    //     })
-    //     .then((data) => {
-    //       debugger
-    //       this.todo_list = data;
-    //     });
-    // },
-
+    }
   },
   mounted: function mounted() {
     var _this3 = this;
 
     axios.get("/api/user").then(function (response) {
       _this3.user = response.data;
-    });
-    this.user ? this.url = "api/todo/user-list/" + this.user.id : this.url = "api/todo";
-    this.fetchTodoList(this.url); // this.fetchTodoList("api/todo");
+    }); // this.user
+    //   ? (this.url = "api/todo/user-list/" + this.user.id)
+    //   : (this.url = "api/todo");
+    // this.fetchTodoList(this.url);
+    // this.fetchTodoList("api/todo");
     // this.getResults();
+
+    this.getResults();
   }
 });
 
@@ -54151,146 +54143,158 @@ var render = function() {
     [
       _c("Navbar"),
       _vm._v(" "),
-      _c("div", { staticClass: "container my-12 mx-auto px-4 md:px-12" }, [
-        _c("div", { staticClass: "text-2xl text-green-600 font-bold" }, [
-          _vm.user
-            ? _c("p", [_vm._v("My ToDo List:")])
-            : _c("p", [_vm._v("All ToDo:")])
-        ]),
-        _vm._v(" "),
-        _vm.todo_list.length
-          ? _c(
-              "div",
-              { staticClass: "flex flex-wrap -mx-1 lg:-mx-4" },
-              _vm._l(_vm.todo_list, function(todo) {
-                return _c(
-                  "div",
-                  {
-                    key: todo.id,
-                    staticClass:
-                      "my-1 px-1 w-full md:w-1/2 lg:my-4 lg:px-4 lg:w-1/3"
-                  },
-                  [
-                    _c(
-                      "article",
-                      {
-                        staticClass:
-                          "overflow-hidden rounded-lg shadow-lg bg-gray-50"
-                      },
-                      [
-                        _c(
-                          "header",
-                          {
-                            staticClass:
-                              "flex items-center justify-between leading-tight p-2 md:p-4"
-                          },
-                          [
-                            _c("h1", { staticClass: "text-lg" }, [
-                              _vm._v(_vm._s(todo.title))
-                            ]),
-                            _vm._v(" "),
-                            _c(
-                              "p",
-                              { staticClass: "text-grey-darker text-sm" },
-                              [
-                                _vm._v(
-                                  "\n              " +
-                                    _vm._s(
-                                      _vm
-                                        .moment(String(todo.created_at))
-                                        .format("MM/DD/YYYY")
-                                    ) +
-                                    "\n            "
-                                )
-                              ]
-                            )
-                          ]
-                        ),
-                        _vm._v(" "),
-                        _c(
-                          "p",
-                          { staticClass: "text-grey-darker text-sm ml-4" },
-                          [_vm._v(_vm._s(todo.description))]
-                        ),
-                        _vm._v(" "),
-                        _c(
-                          "footer",
-                          {
-                            staticClass:
-                              "flex items-center justify-between leading-none p-2 md:p-4"
-                          },
-                          [
-                            _vm._m(0, true),
-                            _vm._v(" "),
-                            _vm.user !== false
-                              ? _c(
-                                  "div",
-                                  {
-                                    staticClass: "btn-group",
-                                    attrs: { role: "group" }
-                                  },
-                                  [
-                                    _c(
-                                      "router-link",
-                                      {
-                                        staticClass: "btn btn-primary",
-                                        attrs: {
-                                          to: {
-                                            name: "view",
-                                            params: { id: todo.id }
+      _c(
+        "div",
+        { staticClass: "container my-12 mx-auto px-4 md:px-12" },
+        [
+          _c("div", { staticClass: "text-2xl text-green-600 font-bold" }, [
+            _vm.user
+              ? _c("p", [_vm._v("My ToDo List:")])
+              : _c("p", [_vm._v("All ToDo:")])
+          ]),
+          _vm._v(" "),
+          _vm.todo_list.data
+            ? _c(
+                "div",
+                { staticClass: "flex flex-wrap -mx-1 lg:-mx-4" },
+                _vm._l(_vm.todo_list.data, function(todo) {
+                  return _c(
+                    "div",
+                    {
+                      key: todo.id,
+                      staticClass:
+                        "my-1 px-1 w-full md:w-1/2 lg:my-4 lg:px-4 lg:w-1/3"
+                    },
+                    [
+                      _c(
+                        "article",
+                        {
+                          staticClass:
+                            "overflow-hidden rounded-lg shadow-lg bg-gray-50"
+                        },
+                        [
+                          _c(
+                            "header",
+                            {
+                              staticClass:
+                                "flex items-center justify-between leading-tight p-2 md:p-4"
+                            },
+                            [
+                              _c("h1", { staticClass: "text-lg" }, [
+                                _vm._v(_vm._s(todo.title))
+                              ]),
+                              _vm._v(" "),
+                              _c(
+                                "p",
+                                { staticClass: "text-grey-darker text-sm" },
+                                [
+                                  _vm._v(
+                                    "\n              " +
+                                      _vm._s(
+                                        _vm
+                                          .moment(String(todo.created_at))
+                                          .format("MM/DD/YYYY")
+                                      ) +
+                                      "\n            "
+                                  )
+                                ]
+                              )
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "p",
+                            { staticClass: "text-grey-darker text-sm ml-4" },
+                            [_vm._v(_vm._s(todo.description))]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "footer",
+                            {
+                              staticClass:
+                                "flex items-center justify-between leading-none p-2 md:p-4"
+                            },
+                            [
+                              _vm._m(0, true),
+                              _vm._v(" "),
+                              _vm.user !== false
+                                ? _c(
+                                    "div",
+                                    {
+                                      staticClass: "btn-group",
+                                      attrs: { role: "group" }
+                                    },
+                                    [
+                                      _c(
+                                        "router-link",
+                                        {
+                                          staticClass: "btn btn-primary",
+                                          attrs: {
+                                            to: {
+                                              name: "view",
+                                              params: { id: todo.id }
+                                            }
                                           }
-                                        }
-                                      },
-                                      [
-                                        _c("font-awesome-icon", {
-                                          staticClass: "text-green-600",
-                                          attrs: { icon: "edit" }
-                                        })
-                                      ],
-                                      1
-                                    ),
-                                    _vm._v(" "),
-                                    _c(
-                                      "button",
-                                      {
-                                        staticClass:
-                                          "\n                  text-white\n                  px-3\n                  py-2\n                  text-sm\n                  font-medium\n                  focus:outline-none\n                ",
-                                        on: {
-                                          click: function($event) {
-                                            return _vm.deleteTodo(todo.id)
+                                        },
+                                        [
+                                          _c("font-awesome-icon", {
+                                            staticClass: "text-green-600",
+                                            attrs: { icon: "edit" }
+                                          })
+                                        ],
+                                        1
+                                      ),
+                                      _vm._v(" "),
+                                      _c(
+                                        "button",
+                                        {
+                                          staticClass:
+                                            "\n                  text-white\n                  px-3\n                  py-2\n                  text-sm\n                  font-medium\n                  focus:outline-none\n                ",
+                                          on: {
+                                            click: function($event) {
+                                              return _vm.deleteTodo(todo.id)
+                                            }
                                           }
-                                        }
-                                      },
-                                      [
-                                        _c("font-awesome-icon", {
-                                          staticClass: "text-red-600",
-                                          attrs: { icon: "trash" }
-                                        })
-                                      ],
-                                      1
-                                    )
-                                  ],
-                                  1
-                                )
-                              : _vm._e()
-                          ]
-                        )
-                      ]
-                    )
-                  ]
-                )
-              }),
-              0
-            )
-          : _vm._e(),
-        _vm._v(" "),
-        !_vm.todo_list.length
-          ? _c("div", { staticClass: "text-3xl text-center text-red-600" }, [
-              _vm._v("\n      No Record Found! "),
-              _c("br")
-            ])
-          : _vm._e()
-      ])
+                                        },
+                                        [
+                                          _c("font-awesome-icon", {
+                                            staticClass: "text-red-600",
+                                            attrs: { icon: "trash" }
+                                          })
+                                        ],
+                                        1
+                                      )
+                                    ],
+                                    1
+                                  )
+                                : _vm._e()
+                            ]
+                          )
+                        ]
+                      )
+                    ]
+                  )
+                }),
+                0
+              )
+            : _vm._e(),
+          _vm._v(" "),
+          !_vm.todo_list.data
+            ? _c("div", { staticClass: "text-3xl text-center text-red-600" }, [
+                _vm._v("\n      No Record Found! "),
+                _c("br")
+              ])
+            : _vm._e(),
+          _vm._v(" "),
+          _c("pagination", {
+            staticClass:
+              "relative z-0 inline-flex rounded-md shadow-sm -space-x-px",
+            attrs: { data: _vm.todo_list },
+            on: { "pagination-change-page": _vm.getResults }
+          })
+        ],
+        1
+      )
     ],
     1
   )

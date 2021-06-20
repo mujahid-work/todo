@@ -6,10 +6,10 @@
         <p v-if="user">My ToDo List:</p>
         <p v-else>All ToDo:</p>
       </div>
-      <div class="flex flex-wrap -mx-1 lg:-mx-4" v-if="todo_list.length">
+      <div class="flex flex-wrap -mx-1 lg:-mx-4" v-if="todo_list.data">
         <div
           class="my-1 px-1 w-full md:w-1/2 lg:my-4 lg:px-4 lg:w-1/3"
-          v-for="todo in todo_list"
+          v-for="todo in todo_list.data"
           :key="todo.id"
         >
           <article class="overflow-hidden rounded-lg shadow-lg bg-gray-50">
@@ -63,14 +63,15 @@
           </article>
         </div>
       </div>
-      <div class="text-3xl text-center text-red-600" v-if="!todo_list.length">
+      <div class="text-3xl text-center text-red-600" v-if="!todo_list.data">
         No Record Found! <br />
       </div>
+      <pagination
+        class="relative z-0 inline-flex rounded-md shadow-sm -space-x-px"
+        :data="todo_list"
+        @pagination-change-page="getResults"
+      ></pagination>
     </div>
-    <!-- <pagination
-      :data="todo_list"
-      @pagination-change-page="getResults"
-    ></pagination> -->
   </div>
 </template>
 <script>
@@ -104,37 +105,25 @@ export default {
           }
         });
     },
-    fetchTodoList(path) {
-      axios.get(path).then((response) => {
-        console.log(response.data);
-        this.todo_list = response.data.data;
+    getResults(page = 1) {
+      axios.get("api/todo?page=" + page).then((response) => {
+        this.todo_list = response.data;
       });
     },
-    // getResults(page) {
-    //   if (typeof page === "undefined") {
-    //     page = 1;
-    //   }
-    //   axios.get("api/todo?page=" + page)
-    //     .then((response) => {
-    //       return response.json();
-    //     })
-    //     .then((data) => {
-    //       debugger
-    //       this.todo_list = data;
-    //     });
-    // },
   },
   mounted() {
     axios.get("/api/user").then((response) => {
       this.user = response.data;
     });
-    this.user
-      ? (this.url = "api/todo/user-list/" + this.user.id)
-      : (this.url = "api/todo");
-    this.fetchTodoList(this.url);
+    // this.user
+    //   ? (this.url = "api/todo/user-list/" + this.user.id)
+    //   : (this.url = "api/todo");
+    // this.fetchTodoList(this.url);
 
     // this.fetchTodoList("api/todo");
     // this.getResults();
+
+    this.getResults();
   },
 };
 </script>
