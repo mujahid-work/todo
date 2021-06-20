@@ -140,7 +140,7 @@ export default {
       axios
         .post("/api/register", this.form)
         .then((response) => {
-          this.$router.push("/verify-account");
+          this.$router.push({ name: "verify" });
           this.$toaster.success(response.data.success[0]);
         })
         .catch((error) => {

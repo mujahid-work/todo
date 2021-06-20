@@ -94,7 +94,7 @@ export default {
       axios
         .post("/api/todo", this.form)
         .then((response) => {
-          this.$router.push("/");
+          this.$router.push({ name: "list" });
           this.$toaster.success(response.data.success[0]);
         })
         .catch((error) => {

@@ -97,7 +97,7 @@ export default {
   methods: {
     logout() {
       axios.get("/api/logout").then(() => {
-        this.$router.push("/");
+        this.$router.push({ name: "list" });
       });
     },
   },

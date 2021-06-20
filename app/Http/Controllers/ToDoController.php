@@ -10,7 +10,8 @@ class ToDoController extends Controller
 {
     public function index()
     {
-        return ToDo::all();
+        $data = ToDo::paginate(10);
+        return response()->json($data);
     }
 
     // public function fetchUserTodoList($user_id){

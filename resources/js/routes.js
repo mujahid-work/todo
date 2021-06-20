@@ -13,43 +13,50 @@ export default {
     routes: [
         {
             path: '*',
-            component: PageNotFound
+            component: PageNotFound,
+            name: '404'
         },
         {
             path: '/',
-            component: TodoList
+            component: TodoList,
+            name: 'list'
         },
         {
             path: '/verify-account',
-            component: VerifyAccount
+            component: VerifyAccount,
+            name:'verify'
         },
         {
             path: '/login',
-            component: Login
+            component: Login,
+            name: 'login'
         },
         {
             path: '/register',
-            component: Register
+            component: Register,
+            name: 'register'
         },
         {
             path: '/create-todo',
             component: CreateTodo,
+            name: 'create',
             beforeEnter: (to, from, next) => {
                 axios.get('api/authenticated').then(() => {
                     next();
                 }).catch(() => {
-                    return next('/login')
+                    return next({ name: "login" })
                 })
             }
         },
         {
             path: '/view-todo',
             component: ViewTodo,
+            name:'view',
             beforeEnter: (to, from, next) => {
                 axios.get('api/authenticated').then(() => {
                     next();
                 }).catch(() => {
-                    return next('/login')
+                    return next({ name: "login" })
                 })
             }
         }

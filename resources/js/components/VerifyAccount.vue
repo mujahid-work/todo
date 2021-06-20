@@ -72,7 +72,7 @@ export default {
       axios
         .post("/api/verify-account", this.form)
         .then((response) => {
-          this.$router.push("/login");
+          this.$router.push({ name: "login" });
           this.$toaster.success(response.data.success[0]);
         })
         .catch((error) => {
