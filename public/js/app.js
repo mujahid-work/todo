@@ -12893,8 +12893,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({});
 
 /***/ }),
@@ -54738,20 +54736,11 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("div", [
-      _c(
-        "div",
-        {
-          staticClass:
-            "absolute inset-0 bg-gray-200 flex items-center justify-center"
-        },
-        [
-          _c("div", { staticClass: "text-3xl text-center text-green-600" }, [
-            _vm._v("\n      Welcome to our ToDo App "),
-            _c("br"),
-            _vm._v("Please Login/Register to continue\n    ")
-          ])
-        ]
-      )
+      _c("div", { staticClass: "text-3xl text-center text-green-600 mt-20" }, [
+        _vm._v("\n    Welcome to our ToDo App "),
+        _c("br"),
+        _vm._v("Please Login/Register to continue\n  ")
+      ])
     ])
   }
 ]
