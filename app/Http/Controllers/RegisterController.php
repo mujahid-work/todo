@@ -29,7 +29,7 @@ class RegisterController extends Controller
         if ($is_created) {
             $this->sendVerificationEmail($code, $request->email);
             $response = [
-                'success' => ['Heads Up! Account created successfully.']
+                'success' => ['Heads Up! Account created successfully. Please check your email for verification code.']
             ];
             return response()->json($response, 200);
         } else {

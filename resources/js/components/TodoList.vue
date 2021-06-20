@@ -1,7 +1,8 @@
 <template>
   <div>
     <Navbar />
-    <div class="container my-12 mx-auto px-4 md:px-12">
+    <Welcome v-if="user === null" />
+    <div class="container my-12 mx-auto px-4 md:px-12" v-else>
       <div class="text-2xl text-green-600 font-bold">
         <input
           type="text"
@@ -20,8 +21,7 @@
           "
           placeholder="enter keywords to search"
         />
-        <p v-if="user">My ToDo List:</p>
-        <p v-else>All ToDo:</p>
+        <p>My ToDo List:</p>
       </div>
       <div class="flex flex-wrap -mx-1 lg:-mx-4" v-if="todo_list.data.length">
         <div
@@ -80,7 +80,10 @@
           </article>
         </div>
       </div>
-      <div class="text-3xl text-center text-red-600" v-if="!todo_list.data.length">
+      <div
+        class="text-3xl text-center text-red-600"
+        v-else
+      >
         No Record Found! <br />
       </div>
       <pagination
@@ -93,15 +96,17 @@
 </template>
 <script>
 import Navbar from "./Navbar";
+import Welcome from "./Welcome";
 var moment = require("moment");
 export default {
   components: {
     Navbar,
+    Welcome,
   },
   data() {
     return {
       moment: moment,
-      user: false,
+      user: null,
       todo_list: null,
       keywords: null,
     };
@@ -116,7 +121,7 @@ export default {
       axios
         .delete(`/api/todo/${id}`)
         .then((response) => {
-          let i = this.todo_list.data.map((todo) => todo.id).indexOf(id); // find index of your object
+          let i = this.todo_list.data.map((todo) => todo.id).indexOf(id);
           this.todo_list.data.splice(i, 1);
           this.$toaster.success(response.data.success[0]);
         })

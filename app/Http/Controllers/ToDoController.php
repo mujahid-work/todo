@@ -16,12 +16,9 @@ class ToDoController extends Controller
             $data = ToDo::where('title', 'LIKE', "%{$request->keywords}%")
                 ->where('user_id', '=', $user->id)
                 ->paginate(9);
-        } else {
-            $data = ToDo::where('title', 'LIKE', "%{$request->keywords}%")
-                ->paginate(9);
+            return response()->json($data);
         }
-
-        return response()->json($data);
+        return false;
     }
 
     public function store(Request $request)

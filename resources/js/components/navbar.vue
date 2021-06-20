@@ -22,7 +22,7 @@
               <router-link
                 class="text-white px-3 py-2 text-sm font-medium"
                 to="/create-todo"
-                v-if="isLoggedIn === true"
+                v-if="user !== null"
                 >Create ToDo</router-link
               >
             </div>
@@ -42,7 +42,7 @@
             sm:pr-0
           "
         >
-          <div v-if="isLoggedIn === true">
+          <div v-if="user !== null">
             <label
               class="
                 text-white
@@ -72,13 +72,13 @@
           <router-link
             class="text-white px-3 py-2 text-sm font-medium"
             to="/login"
-            v-if="isLoggedIn === false"
+            v-if="user === null"
             >Login</router-link
           >
           <router-link
             class="text-white px-3 py-2 text-sm font-medium"
             to="/register"
-            v-if="isLoggedIn === false"
+            v-if="user === null"
             >Register</router-link
           >
         </div>
@@ -90,21 +90,19 @@
 export default {
   data() {
     return {
-      isLoggedIn: false,
       user: null,
     };
   },
   methods: {
     logout() {
       axios.get("/api/logout").then(() => {
-        this.$router.push({ name: "list" });
+        this.$router.push({ name: "login" });
       });
     },
   },
   mounted() {
     axios.get("/api/user").then((response) => {
       this.user = response.data;
-      this.isLoggedIn = true;
     });
   },
 };

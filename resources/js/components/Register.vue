@@ -92,7 +92,6 @@
             v-model="form.password_confirmation"
             name="password_confirmation"
           />
-          <!-- <span class="w-full text-red-500" v-if="errors.name">{{errors.password[0]}}</span> -->
         </div>
         <div class="p-2 w-full mt-4">
           <button
