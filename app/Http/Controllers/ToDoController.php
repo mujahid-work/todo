@@ -8,15 +8,11 @@ use Illuminate\Validation\ValidationException;
 
 class ToDoController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $data = ToDo::paginate(9);
+        $data = ToDo::where('title', 'LIKE', "%{$request->keywords}%")->paginate(9);
         return response()->json($data);
     }
-
-    // public function fetchUserTodoList($user_id){
-
-    // }
 
     public function store(Request $request)
     {

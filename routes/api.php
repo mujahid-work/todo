@@ -30,4 +30,4 @@ Route::post('/login', [LoginController::class, 'validateLogin']);
 Route::get('/logout', [LoginController::class, 'logout']);
 Route::post('/verify-account', [RegisterController::class, 'verifyAccount']);
 
-Route::resource('todo',ToDoController::class);
+Route::resource('todo', ToDoController::class);

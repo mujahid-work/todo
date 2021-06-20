@@ -12556,6 +12556,23 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
@@ -12569,8 +12586,13 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
       moment: moment,
       user: false,
       todo_list: null,
-      url: null
+      keywords: null
     };
+  },
+  watch: {
+    keywords: function keywords() {
+      this.getResults();
+    }
   },
   methods: {
     deleteTodo: function deleteTodo(id) {
@@ -12597,7 +12619,12 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
       var _this2 = this;
 
       var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
-      axios.get("api/todo?page=" + page).then(function (response) {
+      axios.get("/api/todo", {
+        params: {
+          keywords: this.keywords,
+          page: page
+        }
+      }).then(function (response) {
         _this2.todo_list = response.data;
       });
     }
@@ -12607,13 +12634,7 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
 
     axios.get("/api/user").then(function (response) {
       _this3.user = response.data;
-    }); // this.user
-    //   ? (this.url = "api/todo/user-list/" + this.user.id)
-    //   : (this.url = "api/todo");
-    // this.fetchTodoList(this.url);
-    // this.fetchTodoList("api/todo");
-    // this.getResults();
-
+    });
     this.getResults();
   }
 });
@@ -54148,6 +54169,29 @@ var render = function() {
         { staticClass: "container my-12 mx-auto px-4 md:px-12" },
         [
           _c("div", { staticClass: "text-2xl text-green-600 font-bold" }, [
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.keywords,
+                  expression: "keywords"
+                }
+              ],
+              staticClass:
+                "\n          w-full\n          bg-gray-100\n          rounded\n          border border-gray-400\n          focus:outline-none\n          focus:border-indigo-500\n          text-base\n          px-4\n          py-2\n          mb-10\n        ",
+              attrs: { type: "text", placeholder: "enter keywords to search" },
+              domProps: { value: _vm.keywords },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.keywords = $event.target.value
+                }
+              }
+            }),
+            _vm._v(" "),
             _vm.user
               ? _c("p", [_vm._v("My ToDo List:")])
               : _c("p", [_vm._v("All ToDo:")])
@@ -54311,7 +54355,7 @@ var staticRenderFns = [
           "\n                flex\n                items-center\n                no-underline\n                hover:underline\n                text-black\n              ",
         attrs: { href: "#" }
       },
-      [_c("p", { staticClass: "ml-2 text-sm" }, [_vm._v("Author Name")])]
+      [_c("p", { staticClass: "ml-2 text-sm" })]
     )
   }
 ]

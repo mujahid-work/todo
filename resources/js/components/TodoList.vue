@@ -3,6 +3,23 @@
     <Navbar />
     <div class="container my-12 mx-auto px-4 md:px-12">
       <div class="text-2xl text-green-600 font-bold">
+        <input
+          type="text"
+          v-model="keywords"
+          class="
+            w-full
+            bg-gray-100
+            rounded
+            border border-gray-400
+            focus:outline-none
+            focus:border-indigo-500
+            text-base
+            px-4
+            py-2
+            mb-10
+          "
+          placeholder="enter keywords to search"
+        />
         <p v-if="user">My ToDo List:</p>
         <p v-else>All ToDo:</p>
       </div>
@@ -35,7 +52,7 @@
                 "
                 href="#"
               >
-                <p class="ml-2 text-sm">Author Name</p>
+                <p class="ml-2 text-sm"></p>
               </a>
 
               <div class="btn-group" role="group" v-if="user !== false">
@@ -86,8 +103,13 @@ export default {
       moment: moment,
       user: false,
       todo_list: null,
-      url: null,
+      keywords: null,
     };
+  },
+  watch: {
+    keywords() {
+      this.getResults();
+    },
   },
   methods: {
     deleteTodo(id) {
@@ -106,23 +128,17 @@ export default {
         });
     },
     getResults(page = 1) {
-      axios.get("api/todo?page=" + page).then((response) => {
-        this.todo_list = response.data;
-      });
+      axios
+        .get("/api/todo", { params: { keywords: this.keywords, page: page } })
+        .then((response) => {
+          this.todo_list = response.data;
+        });
     },
   },
   mounted() {
     axios.get("/api/user").then((response) => {
       this.user = response.data;
     });
-    // this.user
-    //   ? (this.url = "api/todo/user-list/" + this.user.id)
-    //   : (this.url = "api/todo");
-    // this.fetchTodoList(this.url);
-
-    // this.fetchTodoList("api/todo");
-    // this.getResults();
-
     this.getResults();
   },
 };
