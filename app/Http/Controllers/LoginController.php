@@ -5,15 +5,13 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
+use App\Services\CustomService;
 
 class LoginController extends Controller
 {
     public function validateLogin(Request $request)
     {
-        $request->validate([
-            'email' => ['required', 'email'],
-            'password' => ['required', 'min:6']
-        ]);
+        CustomService::validateRequest('login', $request);
         if (Auth::attempt(['email' => $request->email, 'password' => $request->password, 'is_active' => 1])) {
             $response = [
                 'user' => Auth::user(),

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\ToDo;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Facades\Auth;
+use App\Services\CustomService;
 
 class ToDoController extends Controller
 {
@@ -23,10 +24,7 @@ class ToDoController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
-            'title' => ['required'],
-            'description' => ['required']
-        ]);
+        CustomService::validateRequest('create-todo', $request);
         $user = Auth::user();
         $is_created = ToDo::create([
             'title' => $request->title,
@@ -52,10 +50,7 @@ class ToDoController extends Controller
 
     public function update(Request $request, $id)
     {
-        $request->validate([
-            'title' => ['required'],
-            'description' => ['required']
-        ]);
+        CustomService::validateRequest('update-todo', $request);
         $is_found = ToDo::find($id);
         if ($is_found) {
             $is_found->update($request->all());
