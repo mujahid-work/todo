@@ -130,6 +130,11 @@ class CustomService
                     'error' => ['Oh Snap! Something went wrong. Please try again.']
                 ];
                 break;
+            case "unauthorized":
+                $response = [
+                    'error' => ['Oh Snap! You are not allowed to perform action on this resource.']
+                ];
+                break;
         }
         if (empty($response)) {
             return false;

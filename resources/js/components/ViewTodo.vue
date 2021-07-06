@@ -87,9 +87,18 @@ export default {
     };
   },
   mounted() {
-    axios.get(`/api/todo/${this.$route.params.id}`).then((response) => {
-      this.todo = response.data;
-    });
+    axios
+      .get(`/api/todo/${this.$route.params.id}`)
+      .then((response) => {
+        this.todo = response.data;
+      })
+      .catch((error) => {
+        this.errors = error.response.data.error;
+        if (this.errors) {
+          this.$toaster.error(this.errors[0]);
+          this.$router.push({ name: "list" });
+        }
+      });
   },
   methods: {
     update() {

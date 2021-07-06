@@ -21,10 +21,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::middleware('auth:sanctum')->get('/authenticated', function () {
-    return true;
-});
-
 //public routes start
 Route::post('/register', [RegisterController::class, 'store']);
 Route::post('/login', [LoginController::class, 'validateLogin']);

@@ -4,9 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\ToDo;
-use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Facades\Auth;
 use App\Services\CustomService;
+use Illuminate\Support\Facades\Gate;
 
 class ToDoController extends Controller
 {
@@ -40,15 +40,22 @@ class ToDoController extends Controller
 
     public function show($id)
     {
-        return ToDo::find($id);
+        $toDo = ToDo::find($id);
+        if (!Gate::allows('authorize-user', $toDo)) {
+            return CustomService::returnExceptionResponse('unauthorized', 401);
+        }
+        return $toDo;
     }
 
     public function update(Request $request, $id)
     {
         CustomService::validateRequest('update-todo', $request);
-        $is_found = ToDo::find($id);
-        if ($is_found) {
-            $is_found->update($request->all());
+        $toDo = ToDo::find($id);
+        if (!Gate::allows('authorize-user', $toDo)) {
+            return CustomService::returnExceptionResponse('unauthorized', 401);
+        }
+        if ($toDo) {
+            $toDo->update($request->all());
             return CustomService::returnSuccessResponse('update-todo', null, 200);
         } else {
             return CustomService::returnExceptionResponse('something-went-wrong', 403);
@@ -57,8 +64,12 @@ class ToDoController extends Controller
 
     public function destroy($id)
     {
-        $is_deleted = ToDo::destroy($id);
-        if ($is_deleted) {
+        $toDo = ToDo::find($id);
+        if (!Gate::allows('authorize-user', $toDo)) {
+            return CustomService::returnExceptionResponse('unauthorized', 401);
+        }
+        if ($toDo) {
+            $toDo->delete();
             return CustomService::returnSuccessResponse('delete-todo', null, 200);
         } else {
             return CustomService::returnExceptionResponse('something-went-wrong', 403);

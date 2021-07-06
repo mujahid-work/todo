@@ -12847,6 +12847,16 @@ __webpack_require__.r(__webpack_exports__);
 
     axios.get("/api/todo/".concat(this.$route.params.id)).then(function (response) {
       _this.todo = response.data;
+    })["catch"](function (error) {
+      _this.errors = error.response.data.error;
+
+      if (_this.errors) {
+        _this.$toaster.error(_this.errors[0]);
+
+        _this.$router.push({
+          name: "list"
+        });
+      }
     });
   },
   methods: {
