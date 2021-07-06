@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Validation\ValidationException;
 use Carbon\Carbon;
 use App\Services\CustomService;
 
@@ -23,14 +22,9 @@ class RegisterController extends Controller
         ]);
         if ($is_created) {
             CustomService::sendVerificationEmail($code, $request->email);
-            $response = [
-                'success' => ['Heads Up! Account created successfully. Please check your email for verification code.']
-            ];
-            return response()->json($response, 200);
+            return CustomService::returnSuccessResponse('register', null, 201);
         } else {
-            throw ValidationException::withMessages([
-                'error' => ['Oh Snap! Something went wrong. Please try again.']
-            ]);
+            return CustomService::returnExceptionResponse('something-went-wrong', 403);
         }
     }
 
@@ -44,14 +38,9 @@ class RegisterController extends Controller
                 'email_verified_at' => Carbon::now()
             ]);
         if ($is_updated) {
-            $response = [
-                'success' => ['Heads Up! Account verified successfully.']
-            ];
-            return response()->json($response, 200);
+            return CustomService::returnSuccessResponse('verify-account', null, 200);
         } else {
-            throw ValidationException::withMessages([
-                'error' => ['Oh Snap! Invalid verification code. Please try again with a valid one.']
-            ]);
+            return CustomService::returnExceptionResponse('something-went-wrong', 403);
         }
     }
 }

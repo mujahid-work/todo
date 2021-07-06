@@ -41,8 +41,8 @@ export default {
             component: CreateTodo,
             name: 'create',
             beforeEnter: (to, from, next) => {
-                axios.get('api/authenticated').then((res) => {
-                    if (res.data == 1) {
+                axios.get('api/user').then((res) => {
+                    if (res.data) {
                         next();
                     }
                     else {
@@ -58,8 +58,8 @@ export default {
             component: ViewTodo,
             name: 'view',
             beforeEnter: (to, from, next) => {
-                axios.get('api/authenticated').then((res) => {
-                    if (res.data == 1) {
+                axios.get('api/user').then((res) => {
+                    if (res.data) {
                         next();
                     }
                     else {

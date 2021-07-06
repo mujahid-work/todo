@@ -11999,10 +11999,10 @@ __webpack_require__.r(__webpack_exports__);
 
         _this.$toaster.success(response.data.success[0]);
       })["catch"](function (error) {
-        _this.errors = error.response.data.errors;
+        _this.errors = error.response.data.error;
 
-        if (_this.errors.error) {
-          _this.$toaster.error(_this.errors.error[0]);
+        if (_this.errors) {
+          _this.$toaster.error(_this.errors[0]);
         }
       });
     }
@@ -12125,10 +12125,10 @@ __webpack_require__.r(__webpack_exports__);
 
         _this.$toaster.success(response.data.success[0]);
       })["catch"](function (error) {
-        _this.errors = error.response.data.errors;
+        _this.errors = error.response.data.error;
 
-        if (_this.errors.error) {
-          _this.$toaster.error(_this.errors.error[0]);
+        if (_this.errors) {
+          _this.$toaster.error(_this.errors[0]);
         }
       });
     }
@@ -12453,10 +12453,10 @@ __webpack_require__.r(__webpack_exports__);
 
         _this.$toaster.success(response.data.success[0]);
       })["catch"](function (error) {
-        _this.errors = error.response.data.errors;
+        _this.errors = error.response.data.error;
 
-        if (_this.errors.error) {
-          _this.$toaster.error(_this.errors.error[0]);
+        if (_this.errors) {
+          _this.$toaster.error(_this.errors[0]);
         }
       });
     }
@@ -12478,9 +12478,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _Navbar__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Navbar */ "./resources/js/components/Navbar.vue");
 /* harmony import */ var _Welcome__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Welcome */ "./resources/js/components/Welcome.vue");
-//
-//
-//
 //
 //
 //
@@ -12610,10 +12607,10 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
 
         _this.$toaster.success(response.data.success[0]);
       })["catch"](function (error) {
-        _this.errors = error.response.data.errors;
+        _this.errors = error.response.data.error;
 
-        if (_this.errors.error) {
-          _this.$toaster.error(_this.errors.error[0]);
+        if (_this.errors) {
+          _this.$toaster.error(_this.errors[0]);
         }
       });
     },
@@ -12734,10 +12731,10 @@ __webpack_require__.r(__webpack_exports__);
 
         _this.$toaster.success(response.data.success[0]);
       })["catch"](function (error) {
-        _this.errors = error.response.data.errors;
+        _this.errors = error.response.data.error;
 
-        if (_this.errors.error) {
-          _this.$toaster.error(_this.errors.error[0]);
+        if (_this.errors) {
+          _this.$toaster.error(_this.errors[0]);
         }
       });
     }
@@ -12863,10 +12860,10 @@ __webpack_require__.r(__webpack_exports__);
           name: "list"
         });
       })["catch"](function (error) {
-        _this2.errors = error.response.data.errors;
+        _this2.errors = error.response.data.error;
 
-        if (_this2.errors.error) {
-          _this2.$toaster.error(_this2.errors.error[0]);
+        if (_this2.errors) {
+          _this2.$toaster.error(_this2.errors[0]);
         }
       });
     }
@@ -13009,8 +13006,8 @@ __webpack_require__.r(__webpack_exports__);
     component: _components_CreateTodo__WEBPACK_IMPORTED_MODULE_3__.default,
     name: 'create',
     beforeEnter: function beforeEnter(to, from, next) {
-      axios__WEBPACK_IMPORTED_MODULE_7___default().get('api/authenticated').then(function (res) {
-        if (res.data == 1) {
+      axios__WEBPACK_IMPORTED_MODULE_7___default().get('api/user').then(function (res) {
+        if (res.data) {
           next();
         } else {
           next({
@@ -13028,8 +13025,8 @@ __webpack_require__.r(__webpack_exports__);
     component: _components_ViewTodo__WEBPACK_IMPORTED_MODULE_4__.default,
     name: 'view',
     beforeEnter: function beforeEnter(to, from, next) {
-      axios__WEBPACK_IMPORTED_MODULE_7___default().get('api/authenticated').then(function (res) {
-        if (res.data == 1) {
+      axios__WEBPACK_IMPORTED_MODULE_7___default().get('api/user').then(function (res) {
+        if (res.data) {
           next();
         } else {
           next({

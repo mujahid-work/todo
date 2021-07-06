@@ -32,14 +32,9 @@ class ToDoController extends Controller
             'user_id' => $user->id
         ]);
         if ($is_created) {
-            $response = [
-                'success' => ['Heads Up! Record added successfully.']
-            ];
-            return response()->json($response, 200);
+            return CustomService::returnSuccessResponse('create-todo', null, 201);
         } else {
-            throw ValidationException::withMessages([
-                'error' => ['Oh Snap! Something went wrong. Please try again.']
-            ]);
+            return CustomService::returnExceptionResponse('something-went-wrong', 403);
         }
     }
 
@@ -54,14 +49,9 @@ class ToDoController extends Controller
         $is_found = ToDo::find($id);
         if ($is_found) {
             $is_found->update($request->all());
-            $response = [
-                'success' => ['Heads Up! Record updated successfully.']
-            ];
-            return response()->json($response, 200);
+            return CustomService::returnSuccessResponse('update-todo', null, 200);
         } else {
-            throw ValidationException::withMessages([
-                'error' => ['Oh Snap! Something went wrong. Please try again.']
-            ]);
+            return CustomService::returnExceptionResponse('something-went-wrong', 403);
         }
     }
 
@@ -69,14 +59,9 @@ class ToDoController extends Controller
     {
         $is_deleted = ToDo::destroy($id);
         if ($is_deleted) {
-            $response = [
-                'success' => ['Heads Up! Record deleted successfully.']
-            ];
-            return response()->json($response, 200);
+            return CustomService::returnSuccessResponse('delete-todo', null, 200);
         } else {
-            throw ValidationException::withMessages([
-                'error' => ['Oh Snap! Something went wrong. Please try again.']
-            ]);
+            return CustomService::returnExceptionResponse('something-went-wrong', 403);
         }
     }
 }

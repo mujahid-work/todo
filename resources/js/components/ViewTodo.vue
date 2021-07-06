@@ -100,9 +100,9 @@ export default {
           this.$router.push({ name: "list" });
         })
         .catch((error) => {
-          this.errors = error.response.data.errors;
-          if (this.errors.error) {
-            this.$toaster.error(this.errors.error[0]);
+          this.errors = error.response.data.error;
+          if (this.errors) {
+            this.$toaster.error(this.errors[0]);
           }
         });
     },
